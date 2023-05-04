@@ -1,6 +1,36 @@
 # Somporko - A social media platform for the people of Bangladesh
 
-Created by [Md. Almas Ali][1] a rewite of social-media private platform project in Django for personal use case. Now, it is open source and can be used by anyone. It was mainly created for the people of Bangladesh for having a safe and secure social media platform. Now, anyone can use it for free to gain knowledge about Django and social media platform. It is not a complete project and still in development. So, if you want to contribute, you are welcome. 
+## Table of contents
+
+  - [Introduction](#introduction)
+  - [Screenshots](#screenshots)
+    - [Home Page](#home-page)
+    - [Login Page](#login-page)
+    - [Register Page](#register-page)
+    - [Password Reset Page](#password-reset-page)
+    - [Report Page](#report-page)
+    - [Profile Page](#profile-page)
+    - [Friend Request Example](#friend-request-example)
+    - [Friend Request List](#friend-request-list)
+    - [Search Page](#search-page)
+    - [Newsfeed Page](#newsfeed-page)
+    - [Post Page](#post-page)
+    - [Comment Page](#comment-page)
+    - [Settings Page](#settings-page)
+    - [Change Password](#change-password)
+    - [User Login Record](#user-login-record)
+    - [Profile delete confirmation](#profile-delete-confirmation)
+    - [Profile delete confirmation](#profile-delete-confirmation-1)
+    - [Privacy Settings](#privacy-settings)
+  - [Features](#features)
+  - [Installation](#installation)
+  - [Contributing](#contributing)
+  - [How to contribute](#how-to-contribute)
+  - [License (Important, must read)](#license)
+
+## Introduction
+
+Created by [Md. Almas Ali][1] a rewite of social-media private platform project in Django for personal use case. Now, it is open source and can be used by anyone. It was mainly created for the people of Bangladesh for having a safe and secure social media platform. Now, anyone can use it for free to gain knowledge about Django and social media platform. It is not a complete project and still in development. So, if you want to contribute, you are most welcome.
 
 ## Screenshots
 
