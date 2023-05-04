@@ -1,0 +1,29 @@
+{% extends 'news_feed/layout.html' %}
+{% block title %}Menu{% endblock title %}
+{% block menu %}active{% endblock menu %}
+{% load static %}
+{% block links %}
+<link rel="stylesheet" href="{% static 'css/user/user_menu.css' %}">
+{% endblock links %}
+{% block body %}
+
+<div class="container">
+  <div class="card my-2 px-2 bg-light text-dark">
+    <h2 align="center">Menu</h2>
+
+    <div class="card m-2 p-3">
+      <h5> <a href="/settings" class="text-dark">Settings</a> </h5>
+    </div>
+
+    <div class="card m-2 p-3">
+      <h5> <a href="/profile/report" class="text-dark">Report</a> </h5>
+    </div>
+
+    <div class="card m-2 p-3">
+      <h5> <a href="/logout" class="text-danger">Logout</a> </h5>
+    </div>
+
+  </div>
+</div>
+
+{% endblock body %}

@@ -1,0 +1,20 @@
+{% extends 'user_settings/layout.html' %}
+{% block title %}User delete{% endblock title %}
+{% block menu %}active{% endblock menu %}
+{% block body %}
+
+<div class="container">
+    <div class="card bg-light text-dark my-2 mx-2 py-2 px-2">
+        <div class="card bg-light text-dark my-2 mx-2 py-2 px-2 btn-outline-light">
+            For deleting this account:
+            <form action="/settings/request-delete" method="POST">
+                {% csrf_token %}
+                <button class="btn btn-danger my-2">Delete</button>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+
+{% endblock body %}

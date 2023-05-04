@@ -1,0 +1,271 @@
+{% load profile_ex2 %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title> {% block title %}{% endblock title %} - {{config.website_name}} </title>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/custom.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style_a.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/fontawesome/css/fontawesome-all.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/newsfeed/newsfeed.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/newsfeed/user_nav.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/user_profile/layout.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/user_profile/profile.css' %}">
+	<link rel="shortcut icon" href="{% static 'img/somporko.jpeg' %}" type="image/x-icon">
+	{% block links %}{% endblock links %}
+</head>
+
+<body class="bg-primary">
+
+	<!-- <nav class="navbar navbar-expand-lg navbar-dark bg-light">
+		<a class="navbar-brand" href="/newsfeed">
+			<img src="{% static 'img/author_img.jpeg' %}" width="30" height="30" alt="">
+		</a>
+		<a class="navbar-brand" href="/newsfeed">{{config.website_name}}</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+			aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item {% block newsfeed %}{% endblock newsfeed %}">
+					<a class="nav-link" href="/newsfeed">News Feed</a>
+				</li>
+				<li class="nav-item {% block messages %}{% endblock messages %}">
+					<a class="nav-link" href="/messages">Messeges</a>
+				</li>
+				<li class="nav-item {% block notifications %}{% endblock notifications %}">
+					<a class="nav-link" href="/user/notifications">Notifications</a>
+				</li>
+				<li class="nav-item {% block friends %}{% endblock friends %}">
+					<a class="nav-link" href="/friends/friend-requests">Friend Requests <span class="badge badge-light">
+							{{all_r|length}} </span> </a>
+				</li>
+				<li class="nav-item {% block profile %}{% endblock profile %}">
+					<a class="nav-link" href="/profile/user/id={{request.user.id}}">Profile</a>
+				</li>
+				<li class="nav-item {% block menu %}{% endblock menu %}">
+					<a class="nav-link" href="/user/menu">Menu</a>
+				</li>
+			</ul>
+			<form action="/search" method="GET" class="form-inline my-2 my-lg-0">
+				<input name="query" id="query" class="form-control mr-sm-2" type="search" placeholder="Search"
+					aria-label="Search">
+				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+			</form>
+		</div>
+	</nav> -->
+
+	<nav id="user_nav">
+		<div class="site-logo">
+		  <img src="{% static 'img/somporko.png' %}" alt="Somporko" oncontextmenu="return false">
+		</div>
+		<ul>
+		  <li><a href="{% url 'newsfeed' %}"><i class="far fa-newspaper"></i></a></li>
+		  <li><a href="{% url 'messages' %}"><i class="fas fa-comments"></i></a></li>
+		  <li><a href="{% url 'friend-requests' %}" class="friend-request-a"><i class="fas fa-user-plus"></i>
+			  {% if all_r|length > 0 %}
+			  <span class="friend-request-badge badge badge-danger"> {{all_r|length}} </span>
+			  {% endif %}
+			</a>
+		  </li>
+		  <li><a href="#search"  data-toggle="modal" data-target="#search"><i class="fas fa-search"></i></a></li>
+		  <li><a href="{% url 'notifications' %}"><i class="fas fa-bell"></i></a></li>
+		  <li><a href="{% url 'profile' id=request.user.id %}"><i class="fas fa-user"></i></a></li>
+		  <li><a href="{% url 'user_menu' %}"><i class="fas fa-address-card"></i></a></li>
+		</ul>
+	  </nav>
+
+	{% include 'news_feed/search-main.html' %}
+	
+	<div class="container-fluid">
+		<div class="card bg-light my-2">
+			<div class="card-img-top" align="center">
+				{% if userInfo.sno == request.user %}
+				<a href="/settings/imgsettings">
+					<img class="profile_img px-2 py-2" src="{{userInfoPic.img.url}}" alt="Profile_Image">
+				</a>
+				{% else %}
+				<img class="profile px-2 py-2" src="{{userInfoPic.img.url}}" alt="Profile_Image" height="120"
+					width="120" style="pointer-events: none;">
+				{% endif %}
+			</div>
+			<div align="center" class="text-dark my-1">
+				<h3> {{user.get_full_name}}
+					{% if veri.is_verified == 'Yes' %}
+					<img src="/media/icons/blue_badge.png" alt="Blue Badge" height="16" width="16"
+						data-toggle="BlueBadge" data-placement="right"
+						title="{{config.website_name}} confirmed that this is the authentic profile for this public figure.">
+					{% endif %}
+				</h3>
+			</div>
+		</div>
+
+		<div class="card bg-light my-2 text-dark">
+			<div class="card-title" align="center">
+				<small>Bio</small>
+				<p class="mx-2">{{userInfo.bio}}</p>
+			</div>
+		</div>
+
+		{% if request.user != userInfo.sno %}
+
+		<div class="card bg-light my-2 text-dark">
+			<div class="row d-flex justify-content-center">
+
+				{% if recevied_request == True %}
+				<form action="/friends/accept-request/id={{userInfo.sno.id}}" method="POST">
+					{% csrf_token %}
+					<input type="hidden" name="path" id="path" value="{{request.path}}">
+					<button class="btn btn-primary my-2 mx-2">Accept</button>
+				</form>
+
+				<form action="/friends/decline-request/id={{userInfo.sno.id}}" method="POST">
+					{% csrf_token %}
+					<input type="hidden" name="path" id="path" value="{{request.path}}">
+					<button class="btn btn-danger my-2 mx-2">Decline</button>
+				</form>
+				{% else %}
+
+				{% if is_friend == True %}
+				<form action="/friends/remove-friend-confirmation/id={{userInfo.sno.id}}" method="POST">
+					{% csrf_token %}
+					<input type="hidden" name="path" id="path" value="{{request.path}}">
+					<button class="btn btn-danger my-2 mx-2">Unfriend</button>
+				</form>
+
+				{% elif is_sent_request == True %}
+				<form action="/friends/cancel-friend/id={{userInfo.sno.id}}" method="POST">
+					{% csrf_token %}
+					<input type="hidden" name="path" id="path" value="{{request.path}}">
+					<button class="btn btn-danger my-2 mx-2">Cancel Friend</button>
+				</form>
+
+				{% else %}
+				<form action="/friends/add-friend/id={{userInfo.sno.id}}" method="POST">
+					{% csrf_token %}
+					<input type="hidden" name="path" id="path" value="{{request.path}}">
+					<button class="btn btn-primary my-2 mx-2">Add Friend</button>
+				</form>
+				{% endif %}
+
+				{% if is_following == False %}
+				<form action="/friends/add-follow/id={{userInfo.sno.id}}" method="POST">
+					{% csrf_token %}
+					<input type="hidden" name="path" id="path" value="{{request.path}}">
+					<button class="btn btn-primary my-2 mx-2">Follow</button>
+				</form>
+				{% else %}
+
+				<form action="/friends/cancel-follow/id={{userInfo.sno.id}}" method="POST">
+					{% csrf_token %}
+					<input type="hidden" name="path" id="path" value="{{request.path}}">
+					<button class="btn btn-danger my-2 mx-2">Unfollow</button>
+				</form>
+				{% endif %}
+				{% endif %}
+
+			</div>
+		</div>
+
+		{% endif %}
+
+		<div class="card bg-light my-2 text-dark py-2 px-3">
+			<a href="#" class="text-dark"><b> Followed by <span>{{ total_follow |length }}</span> people. </b></a>
+			<b> Joined on <span> {{ user.date_joined.month }}, {{ user.date_joined.year }} </span> </b>
+		</div>
+
+		<!-- <div class="card bg-light my-2 text-dark">
+			<nav class="navbar navbar-expand-lg navbar-dark bg-light"> -->
+		<!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button> -->
+
+		<!-- <div class="collapse navbar-collapse" id="navbarSupportedContent"> -->
+		<!-- <ul class="navbar-nav mr-auto">
+					<li class="nav-item {% block profile1 %}{% endblock profile1 %}">
+						<a class="nav-link" href="/profile/user/id={{user.id}}">Profile</a>
+					</li>
+					<li class="nav-item {% block about %}{% endblock about %}">
+						<a class="nav-link" href="/profile/about/id={{user.id}}">About</a>
+					</li>
+					<li class="nav-item {% block friendlist %}{% endblock friendlist %}">
+						<a class="nav-link" href="/friends/list/id={{user.id}}">Friends</a>
+					</li>
+				</ul> -->
+		<!-- </div> -->
+		<!-- </nav>
+		</div> -->
+			<nav class="profile_menu" id="user_nav">
+				<ul>
+					<li>
+						<a href="/profile/user/id={{user.id}}">Profile</a>
+					</li>
+					<li>
+						<a href="/profile/about/id={{user.id}}">About</a>
+					</li>
+					<li>
+						<a href="/friends/list/id={{user.id}}">Friends</a>
+					</li>
+				</ul>
+			</nav>
+
+		<div class="container-fluid card bg-light text-dark">
+			<form method="POST" action="/profile/user/id={{user.id}}" class="my-2" enctype="multipart/form-data">
+				{% csrf_token %}
+				<textarea name="post" class="form-control" rows="3" placeholder="Post"></textarea>
+				<div class="form-group">
+					<!-- <label for="photo">Photo</label> -->
+					<input type="file" name="photo" class="form-control-file px-2 py-1" id="photo">
+				</div>
+				<button type="submit" class="btn btn-primary my-2">Post</button>
+			</form>
+		</div>
+	</div>
+
+	{% block body %}{% endblock body %}
+
+	<script type="text/javascript" src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/jquery-3.2.1.slim.min.js' %}"></script>
+	<!-- <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script> -->
+	<!-- <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script> -->
+	<script type="text/javascript" src="{% static 'js/popper.min.js' %}"></script>
+	<!-- <script type="text/javascript" src="{% static 'js/form-ajax.js' %}"></script> -->
+	{% block scripts %}{% endblock scripts %}
+	
+	<script>
+		$(function () {
+			$('[data-toggle="BlueBadge"]').tooltip()
+		});
+
+		// $(document).on('submit', '#user-post-profile', function (e) {
+		// 	e.preventDefault();
+		// 	$.ajax({
+		// 		type: 'POST',
+		// 		url: '/profile/likepost',
+		// 		data: {
+		// 			post_id: $("#post_id").val(),
+		// 			path: $("#path").val(),
+		// 			// csrfmiddlewaretoken: $('input[csrfmiddlewaretoken]').val()
+		// 		},
+		// 		success: function () {
+		// 			alart('Form sent!');
+		// 		}
+		// 	});
+		// 	console.log(post_id)
+		// });
+
+	</script>
+
+</body>
+
+
+
+</html>

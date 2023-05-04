@@ -1,0 +1,37 @@
+{% extends 'user_settings/layout.html' %}
+{% block menu %}active{% endblock menu %}
+{% block title %}Settings{% endblock title %}
+{% block body %}
+
+<div class="container">
+    <div class="card bg-light text-dark my-2 mx-2 py-2 px-2">
+        <div class="card bg-light text-dark my-2 mx-2 py-2 px-2 btn-outline-dark">
+            For user profile settings visit here:
+            <a href="/settings/general">General Settings</a>
+        </div>
+
+        <div class="card bg-light text-dark my-2 mx-2 py-2 px-2 btn-outline-dark">
+            For profile picture settings visit here:
+            <a href="/settings/imgsettings">Profile Image Settings</a>
+        </div>
+
+        <div class="card bg-light text-dark my-2 mx-2 py-2 px-2 btn-outline-dark">
+            For advance account settings visit here:
+            <a href="/settings/account">Account Settings</a>
+        </div>
+
+        <div class="card bg-light text-dark my-2 mx-2 py-2 px-2 btn-outline-dark">
+            For user privacy settings visit here:
+            <a href="/settings/privacy">User Privacy</a>
+        </div>
+
+        <div class="card bg-light text-dark my-2 mx-2 py-2 px-2 btn-outline-dark">
+            For user account security settings visit here:
+            <a href="/settings/security">User Security</a>
+        </div>
+
+    </div>
+</div>
+
+
+{% endblock body %}

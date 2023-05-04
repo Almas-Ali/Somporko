@@ -1,0 +1,39 @@
+{% extends 'user_profiles/layout.html' %}
+{% block profile %}active{% endblock profile %}
+{% block about %}active{% endblock about %}
+{% block title %}Profile About{% endblock title %}
+{% block body %}
+
+<div class="container-fluid">
+    <div class="card bg-light text-dark py-2 px-3 my-2">
+        <p>
+            <b>Personal information:</b> <br>
+            First name : {{user.first_name}} <br>
+            Last name : {{user.last_name}} <br>
+            Gender : {{userInfo.gender}} <br>
+            Data of birth : {{userInfo.birthday}} <br>
+            Religion : {{userInfo.religion}} <br>
+            Address : {{userInfo.address}} <br>
+            <br>
+            <b>Contact information:</b> <br>
+
+            {% if hide_email == 'Yes' %}
+            {% if user.id == request.user.id %}
+            Email : {{user.email}}
+            <small class="text-muted bg-light"> Only me </small> <br>
+            {% endif %}
+            {% else %}
+            Email : {{user.email}} <br>
+            {% endif %}
+
+            {% if hide_phone == 'Yes' %}
+            {% else %}
+            Phone : {{userInfo.phone}} <br>
+            {% endif %}
+            
+            {{config.website_name}} : <span align="right">/{{user.username}}</span><br>
+        </p>
+    </div>
+</div>
+
+{% endblock body %}

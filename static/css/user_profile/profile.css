@@ -1,0 +1,11 @@
+.photo {
+    width: 25%;
+    height: 30%;
+    display: block;
+    margin: 0 auto;
+    border-radius: 12px;
+}
+
+.update-notice {
+    font-size: 15px;
+}

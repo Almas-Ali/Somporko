@@ -1,0 +1,90 @@
+{% extends 'news_feed/layout.html' %}
+{% block title %}Messages{% endblock title %}
+{% load humanize %}
+{% load msg_tags %}
+{% load static %}
+{% block links %}
+<link rel="stylesheet" href="{% static 'css/user_messages/chat_box.css' %}">
+<link rel="stylesheet" href="{% static 'css/newsfeed/newsfeed.css' %}">
+{% endblock links %}
+{% block body %}
+
+<div class="container">
+    <div class="card text-dark bg-light">
+        <div class="box">
+            <div class="row">
+                <!-- <i class="fa fa-arrow-left" style="font-size: 30px; color: red;" aria-hidden="true"></i> -->
+                <a href="/profile/user/id={{user.id}}" class="text-dark">
+                    <img src="{{user.id|profile_picture_finder}}" alt="Profile Image" class="user_img">
+                </a>
+                <div class="column">
+                    <div class="row m-0 details">
+                        <a href="/profile/user/id={{user.id}}" class="text-dark">
+                            <h4>{{user.get_full_name}}</h4>
+                        </a>
+                        <span class="text-muted">
+                            <a href="/profile/user/id={{user.id}}" class="text-muted">
+                                @{{user.username}}
+                            </a>
+                        </span>
+                    </div>
+                    <li class="active">Active Now</li>
+                </div>
+            </div>
+            <hr>
+            {% for msg in msgs %}
+            {% if msg.from_user.username == request.user.username %}
+
+            <div class="row from_user_box">
+                <div class="details">
+                    <!-- <div class="row name-field">
+                        <h5><a href="/profile/user/id={{msg.from_user.id}}" class="text-dark">
+                            {{msg.from_user.get_full_name}}</a>
+                        </h5>
+                        <span class="text-muted">@{{msg.from_user.username}}</span>
+                    </div> -->
+                    <div class="card bg-primary from_user_msg">
+                        <p>{{msg.msg}} </p>
+                        <span>{{msg.time |naturaltime}}</span>
+                    </div>
+                </div>
+                <img src="{{msg.from_user.username|profile_picture_finder}}" alt="Profile Image" class="from_user_img">
+            </div>
+            {% else %}
+
+            <div class="row" align="left">
+                <img src="{{msg.from_user.username|profile_picture_finder}}" alt="Profile Image" class="to_user_img">
+                <div class="details">
+                    <!-- <div class="row name-field">
+                        <h5><a href="/profile/user/id={{msg.from_user.id}}" class="text-dark">
+                                {{msg.from_user.get_full_name}}</a>
+                        </h5>
+                        <span class="text-muted">@{{msg.from_user.username}}</span>
+                    </div> -->
+                    <div class="card bg-secondary to_user_msg">
+                        <p>{{msg.msg}}</p>
+                        <span>{{msg.time |naturaltime}}</span>
+                    </div>
+                </div>
+            </div>
+
+            {% endif %}
+
+            {% endfor %}
+
+            <div class="container">
+                <form action="/messages/user/id={{user.id}}" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <textarea class="form-control" name="msg_box" id="msg_box" rows="3" placeholder="Messages..."></textarea>
+                    </div>
+                    <div class="post-btn">
+                        <button class="btn btn-primary w-50 mb-3">Send</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock body %}

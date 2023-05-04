@@ -1,0 +1,206 @@
+{% extends 'user_profiles/layout.html' %}
+{% block title %}Profile{% endblock title %}
+{% load static %}
+{% load humanize %}
+{% load extra %}
+{% load ex2 %}
+{% block links %}
+<link rel="stylesheet" href="{% static 'css/user_profile/profile.css' %}">
+{% endblock links %}
+{% block body %}
+
+
+<div class="container-fluid py-2">
+
+    {% for post in posts %}
+    <div class="card bg-light text-dark my-2 px-2 py-2" id="{{post.id}}">
+
+        <div class="row profile_user_image">
+            <img class="profile px-2 py-2" src="{{userInfoPic.img.url}}" alt="Profile_Image" height="70" width="70"
+                style="pointer-events: none;">
+
+            <div class="column mt-2">
+
+                <a href="/{{user}}" class="text-dark">
+                    {{post.sno|full_name}}
+                </a>
+                <small class="text-muted px-1">@{{user}}</small>
+                {% if post.is_profile_img %}
+                <span class="text-secondary update-notice">Updated profile picture</span>
+                {% endif %}
+                <br>
+                <small class="text-dark badge">
+                    {{post.date |naturaltime}}
+                </small>
+
+            </div>
+        </div>
+
+        <div class="card bg-light text-dark btn-light">
+            <p class="my-2 px-2 py-2">
+                {{post.post}}
+            </p>
+            {% if post.img == '' %}
+            {% else %}
+            <img src="{{post.id|picture_find}}" alt="Image" class="photo" height="{{post.id|get_image_height}}"
+                width="{{post.id|get_image_width}}">
+            {% endif %}
+        </div>
+
+        <div class="row mx-3 mt-2 post-btn">
+            <form action="/profile/likepost" method="GET">
+                <input type="hidden" name="post_id" value="{{post.id}}">
+                <input type="hidden" name="path" value="{{request.path}}">
+                {% if request.user not in post.likes.all %}
+                <button id="like" class="btn btn-sm btn-primary mx-2" type="submit"><i class="far fa-thumbs-up"></i>
+                    {{post.likes.all.count}}
+                    {% else %}
+                    <button id="like" class="btn btn-sm btn-danger mx-2" type="submit"><i class="fas fa-thumbs-up"></i>
+                        {{post.likes.all.count}}
+                    </button>
+                    {% endif %}
+            </form>
+
+            <!-- <form id="user-post-profile">
+                <input type="hidden" id="post_id" value="{{post.id}}">
+                <input type="hidden" id="path" value="{{request.path}}">
+                {% if request.user not in post.likes.all %}
+                <button id="like" class="btn btn-sm btn-primary mx-2" type="submit">{{post.likes.all.count}} Like
+                    {% else %}
+                    <button id="like" class="btn btn-sm btn-danger mx-2" type="submit">{{post.likes.all.count}} Unlike
+                    </button>
+                    {% endif %}
+            </form> -->
+
+            <!-- <button class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#post{{post.id}}"
+                aria-expanded="false" aria-controls="post{{post.id}}">{{post.id|get_count}} Comment</button>
+            <div class="ml-2">
+                <form action="/posts/{{user.username}}/id={{post.id}}">
+                    <button type="submit" class="btn btn-sm btn-secondary d-flex justify-content-right">View
+                        Post</button>
+                </form>
+            </div> -->
+
+
+            <button class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#post{{post.id}}"
+                aria-expanded="false" aria-controls="post{{post.id}}"><i class="far fa-comment"></i>
+                {{post.id|get_count}}</button>
+            <div class="ml-2">
+                <form action="/posts/{{user.username}}/id={{post.id}}">
+                    <button type="submit" class="btn btn-sm btn-primary d-flex justify-content-right"><i
+                            class="far fa-newspaper py-1"></i></button>
+                </form>
+            </div>
+            <a href="#" class="btn btn-sm btn-primary mx-2"><i class="fas fa-share-square"></i></a>
+        </div>
+
+
+        <div class="collapse" id="post{{post.id}}">
+            <div class="card bg-light text-dark my-2 px-2 py-2">
+                <form action="/user/comment" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="path" value="{{request.path}}">
+                    <input type="hidden" name="post" value="{{post.id}}">
+                    <div class="form-group">
+                        <label for="comment">Type your comment here:</label> <br>
+                        <textarea class="col-md-12 comment-box" name="comment" id="comment" cols="30" rows="4"
+                            placeholder="Comment" required></textarea> <br>
+                        <button class="btn btn-sm btn-primary" type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- <a href="#" class="btn btn-sm btn-primary mx-2">Share</a>
+        </div>
+        <div class="collapse" id="post{{post.id}}">
+            <div class="card bg-light text-light my-2 px-2 py-2">
+                <form action="/user/comment" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="path" value="{{request.path}}">
+                    <input type="hidden" name="post" value="{{post.id}}">
+                    <div class="form-group">
+                        <label for="comment">Type your comment here:</label> <br>
+                        <textarea class="col-md-12 profile" name="comment" id="comment" cols="30" rows="4"
+                            placeholder="Comment"></textarea> <br>
+                        <button class="btn btn-sm btn-primary" type="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div> -->
+
+    </div>
+    {% endfor %}
+
+    <!-- {% for pic in profile %}
+    <div class="card bg-light text-dark my-2 px-2 py-2" id="{{pic.id}}">
+
+            <div class="row profile_user_image">
+                <img class="profile px-2 py-2" src="{{userInfoPic.img.url}}" alt="Profile_Image" height="70"
+                    width="70" style="pointer-events: none;">
+
+                <div class="column mt-2">
+
+                    <a href="/{{user}}" class="text-dark">
+                        {{user.get_full_name}}
+                    </a>
+                    <small class="text-muted px-1">@{{user}}</small>
+                    <br>
+                    <small class="text-dark badge badge-secondary">
+                        {{pic.date |naturaltime}}
+                    </small>
+
+                </div>
+            </div>
+            <img src="{{pic.img.url}}" alt="Profile Picture" height="250" width="250">
+
+            <div class="row mx-3 mt-2">
+                <form action="/profile/likepost" method="GET">
+                    <input type="hidden" name="post_id" value="{{pic.id}}">
+                    <input type="hidden" name="path" value="{{request.path}}">
+                    {% if request.user not in pic.likes.all %}
+                    <button id="like" class="btn btn-sm btn-primary mx-2" type="submit">{{pic.likes.all.count}} Like
+                        {% else %}
+                        <button id="like" class="btn btn-sm btn-danger mx-2" type="submit">{{pic.likes.all.count}}
+                            Unlike
+                        </button>
+                        {% endif %}
+                </form>
+
+
+                <button class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#pic{{pic.id}}"
+                    aria-expanded="false" aria-controls="pic{{pic.id}}">{{pic.id|get_count}} Comment</button>
+                <div class="ml-2">
+                    <form action="/posts/{{user.username}}/id={{pic.id}}">
+                        <button type="submit" class="btn btn-sm btn-secondary d-flex justify-content-right">View
+                            Post</button>
+                    </form>
+                </div>
+                <a href="#" class="btn btn-sm btn-primary mx-2">Share</a>
+                <div class="collapse" id="pic{{pic.id}}">
+                    <div class="card bg-light text-light my-2 px-2 py-2">
+                        <form action="/user/comment" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="path" value="{{request.path}}">
+                            <input type="hidden" name="post" value="{{pic.id}}">
+                            <div class="form-group">
+                                <label for="comment">Type your comment here:</label> <br>
+                                <textarea class="col-md-12 profile" name="comment" id="comment" cols="30" rows="4"
+                                    placeholder="Comment"></textarea> <br>
+                                <button class="btn btn-sm btn-primary" type="submit">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        {% endfor %} -->
+
+</div>
+
+{% block scripts %}
+
+{% endblock scripts %}
+
+
+{% endblock body %}

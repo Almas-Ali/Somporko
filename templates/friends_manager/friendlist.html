@@ -1,0 +1,108 @@
+{% extends 'user_profiles/layout.html' %}
+{% block profile %}active{% endblock profile %}
+{% block friendlist %}active{% endblock friendlist %}
+{% block title %}Friend List{% endblock title %}
+{% load humanize %}
+{% load extra_filter %}
+{% block body %}
+
+<div class="container-fluid my-2">
+    <div class="card bg-light text-dark py-2 px-2">
+        <center>
+            <h4>Friend List</h4>
+        </center>
+        {% if hide_friends == 'Yes' %}
+        {% if user.id == request.user.id %}
+        <small class="text-muted bg-light"> Only me </small>
+
+
+        {% for friends in friendlist0 %}
+        <div class="card bg-light text-dark my-2 px-2 py-2 border-light">
+
+            <div class="row profile_user_image">
+                
+                <img class="profile px-2 py-2" src="{{friends.sno|get_user_pic}}" alt="profile" height="60" width="60">
+                
+                <div class="column mt-2">
+
+                    {% for info in userInfoFriends %}
+                    {% if friends.id == info.sno.id %}
+                    <a href="/profile/user/id={{friends.id}}" class="text-dark">
+                        {{info.sno.get_full_name}}
+                    </a>
+                    <small class="text-muted px-1">@{{friends.username}}</small>
+                    <br>
+                    {% for f in all_f %}
+                    {% if f.from_user.id == friends.id %}
+                    <small>Friends since</small>
+                    <small class="text-light badge badge-info">
+                        {{f.created |naturaltime}}
+                    </small>
+                    {% endif %}
+                    {% endfor %}
+                    <p>
+                        {{info.address}}
+                    </p>
+                    <a href="/profile/user/id={{info.sno.id}}"> <button class="btn btn-sm btn-primary"
+                            type="button">Profile</button> </a>
+                    {% endif %}
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+        {% else %}
+        <div class="card bg-light text-dark my-2 px-2 py-2 border-light">
+            User set to privet.
+        </div>
+        {% endif %}
+        {% else %}
+        {% if friendlist0 == empty %}
+        <div class="card bg-light text-dark my-2 px-2 py-2 border-light">
+        No friends.
+        </div>
+        {% else %}
+        {% for friends in friendlist0 %}
+        <div class="card bg-light text-dark my-2 px-2 py-2 border-light">
+
+            <div class="row profile_user_image">
+                <img class="profile px-2 py-2" src="{{friends.username|get_user_pic}}" alt="profile" height="60" width="60">
+                
+                <div class="column mt-2">
+
+                    {% for info in userInfoFriends %}
+                    {% if friends.id == info.sno.id %}
+                    <a href="/profile/user/id={{friends.id}}" class="text-dark">
+                        {{info.sno.get_full_name}}
+                    </a>
+                    <small class="text-muted px-1">@{{friends.username}}</small>
+                    <br>
+                    {% for f in all_r %}
+                    <small>Friends since</small>
+                    <small class="text-light badge badge-info">
+                        {{f.created |naturaltime}}
+                    </small>
+                    {% endfor %}
+                    <p>
+                        {{info.address}}
+                    </p>
+                    <a href="/profile/user/id={{info.sno.id}}"> <button class="btn btn-sm btn-primary"
+                            type="button">Profile</button> </a>
+                    {% endif %}
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endif %}
+
+    </div>
+
+
+
+
+    {% endblock body %}

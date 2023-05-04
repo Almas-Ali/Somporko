@@ -1,0 +1,35 @@
+{% extends 'home/layout.html' %}
+{% block title %}Reset password{% endblock title %}
+{% block body %}
+
+<div class="container-fluid">
+    <div class="card my-2">
+        {% if usr == None %}
+        <center>
+            <h2 class="py-2">
+                User Not found !
+            </h2>
+        </center>
+        {% else %}
+        <center>
+            <h2 class="py-2">
+                User found
+            </h2>
+        </center>
+        <div class="card m-2 p-2 border-dark">
+            <div align="center">
+
+                <img src="{{img.profileImg.url}}" class="profile border border-solid border-dark" alt="Profile Image"
+                    height="125" width="125">
+                <div class="my-2">
+                    User Name : {{usr.get_full_name}} <br>
+                    User Name : {{usr.username}} <br>
+                </div>
+                <a href="password_reset">start</a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock body %}

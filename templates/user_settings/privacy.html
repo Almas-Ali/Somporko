@@ -1,0 +1,64 @@
+{% extends 'user_settings/layout.html' %}
+{% block title %}User Privacy{% endblock title %}
+{% block menu %}active{% endblock menu %}
+{% block body %}
+
+
+<div class="container">
+    <div class="card bg-light text-dark my-2 mx-2 py-2 px-3">
+        <center>
+            <h2>User Privacy</h2>
+        </center>
+        <div class="bg-light text-dark my-2 mx-2 py-2 px-2">
+            <form action="/settings/privacy" method="post">
+                {% csrf_token %}
+
+                <div class="container card bg-light text-dark btn-outline-light my-2">
+                    Do you want to hide your email from others ? <br>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="hide_email" id="hide_emailYes" value="Yes" {{value1}}>
+                        <label class="form-check-label" for="hide_emailYes">Yes</label>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="hide_email" id="hide_emailNo" value="No" {{value2}}>
+                        <label class="form-check-label" for="hide_emailNo">No</label>
+                    </div>
+
+                </div>
+
+                <div class="container card bg-light text-dark btn-outline-light my-2">
+                    Do you want to hide your phone number from others ? <br>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="hide_phone" id="hide_phoneYes" value="Yes" {{value3}}>
+                        <label class="form-check-label" for="hide_phoneYes">Yes</label>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="hide_phone" id="hide_phoneNo" value="No" {{value4}}>
+                        <label class="form-check-label" for="hide_phoneNo">No</label>
+                    </div>
+                </div>
+
+
+                <div class="container card bg-light text-dark btn-outline-light my-2">
+                    Do you want to hide your friend list from others ? <br>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="hide_friends" id="hide_friendsYes" value="Yes" {{value5}}>
+                        <label class="form-check-label" for="hide_friendsYes">Yes</label>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="hide_friends" id="hide_friendsNo" value="No" {{value6}}>
+                        <label class="form-check-label" for="hide_friendsNo">No</label>
+                    </div>
+
+                </div>
+
+                <button type="submit" class="btn btn-danger">Save</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock body %}

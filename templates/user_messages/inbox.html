@@ -1,0 +1,43 @@
+{% extends 'news_feed/layout.html' %}
+{% block title %}Messages{% endblock title %}
+{% load humanize %}
+{% load msg_tags %}
+{% load static %}
+{% block links %}
+<link rel="stylesheet" href="{% static 'css/user_messages/inbox.css' %}">
+<link rel="stylesheet" href="{% static 'css/newsfeed/newsfeed.css' %}">
+{% endblock links %}
+{% block body %}
+
+<div class="container">
+    <div class="card text-dark bg-light">
+        <div class="box">
+            {% for msg in msgs %}
+            <div class="row">
+                <img src="{{msg.from_user.username|profile_picture_finder}}" alt="Profile Image">
+                <div class="details">
+                    <div class="row name-field">
+                        <h4><a href="/profile/user/id={{msg.from_user.id}}" class="text-dark">
+                                {{msg.from_user.get_full_name}}</a>
+                        </h4>
+                        <span class="text-muted">@{{msg.from_user.username}}</span>
+                    </div>
+                    <p>
+                        {{msg.time |naturaltime}} <br>
+                        {{msg.msg|slice:"0:15"}} <br>
+                    </p>
+                    <div class="post-btn">
+                        <a href="/messages/user/id={{msg.from_user.id}}" class="btn btn-primary">Inbox</a>
+                    </div>
+                </div>
+            </div>
+            {% if msgs|length == forloop.counter %}
+            {% else %}
+            <hr>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock body %}

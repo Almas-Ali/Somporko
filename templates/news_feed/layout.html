@@ -1,0 +1,109 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> {% block title %}{% endblock title %} - {{config.website_name}} </title>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/custom.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/fontawesome/css/fontawesome-all.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/newsfeed/user_nav.css' %}">
+  <link rel="stylesheet" href="{% static 'css/newsfeed/newsfeed.css' %}">
+  <link rel="stylesheet" href="{% static 'css/home/search-main.css' %}">
+  <link rel="shortcut icon" href="{% static 'img/somporko.png' %}" type="image/x-icon">
+  {% block links %}{% endblock links %}
+</head>
+
+<body class="bg-primary">
+  <!-- bg-{{theme}} -->
+  <!-- 
+  <nav class="navbar navbar-expand-sm navbar-{{theme}} bg-{{theme}}">
+    <div class="row mx-2">
+      <a class="navbar-brand" href="/newsfeed">
+        <img src="{% static 'img/author_img.jpeg' %}" width="30" height="30" alt="">
+      </a>
+      <a class="navbar-brand" href="/newsfeed">{{config.website_name}}</a>
+    </div>
+    <div class="navbar row" id="navbarSupportedContent">
+      <ul class="navbar nav">
+        <li class="nav-item {% block newsfeed %}{% endblock newsfeed %}">
+          <a class="nav-link" href="/newsfeed"><img src="/media/icons/newsfeed_icon.png" alt="Newsfeed" height="25"
+              width="25"></a>
+        </li>
+        <li class="nav-item {% block messages %}{% endblock messages %}">
+          <a class="nav-link" href="/messages"><img src="/media/icons/messages_icon.png" alt="Messages" height="25"
+              width="25"></a>
+        </li>
+        <li class="nav-item {% block notifications %}{% endblock notifications %}">
+          <a class="nav-link" href="/user/notifications"><img src="/media/icons/notifications_icon.png"
+              alt="Notifications" height="25" width="25"></a>
+        </li>
+        <li class="nav-item {% block friends %}{% endblock friends %}">
+          <a class="nav-link" href="/friends/friend-requests"><img src="/media/icons/friend_request_icon.png"
+              alt="Friend Request" height="25" width="25"><span class="badge badge-danger mt-2"> {{all_r|length}}
+            </span> </a>
+        </li>
+        <li class="nav-item {% block profile %}{% endblock profile %}">
+          <a class="nav-link" href="/profile/user/id={{request.user.id}}">Profile</a>
+        </li>
+        <li class="nav-item {% block menu %}{% endblock menu %}">
+          <a class="nav-link" href="/user/menu">Menu</a>
+        </li>
+
+      </ul>
+      <form action="/search" method="GET" class="form-inline my-1 my-lg-0">
+        <input name="query" id="query" class="form-control mr-sm-2" type="search" placeholder="Search"
+          aria-label="Search">
+        <button class="btn btn-outline-success my-1 my-sm-0" type="submit">Search</button>
+      </form>
+    </div>
+  </nav> -->
+
+  <nav id="user_nav">
+    <div class="site-logo">
+      <img src="{% static 'img/somporko.png' %}" alt="Somporko" oncontextmenu="return false">
+    </div>
+    <ul>
+      <li><a href="{% url 'newsfeed' %}"><i class="far fa-newspaper"></i></a></li>
+      <li><a href="{% url 'messages' %}"><i class="fas fa-comments"></i></a></li>
+      <li><a href="{% url 'friend-requests' %}" class="friend-request-a"><i class="fas fa-user-plus"></i>
+          {% if all_r|length > 0 %}
+          <span class="friend-request-badge badge badge-danger"> {{all_r|length}} </span>
+          {% endif %}
+        </a>
+      </li>
+      <li><a href="#search"  data-toggle="modal" data-target="#search"><i class="fas fa-search"></i></a></li>
+      <li><a href="{% url 'notifications' %}"><i class="fas fa-bell"></i></a></li>
+      <li><a href="{% url 'profile' id=request.user.id %}"><i class="fas fa-user"></i></a></li>
+      <li><a href="{% url 'user_menu' %}"><i class="fas fa-address-card"></i></a></li>
+    </ul>
+  </nav>
+  {% include 'news_feed/search-main.html' %}
+
+  {% if messages %}
+  {% for message in messages %}
+
+  <div class="alert alert-{{ message.tags }} alert-dismissible fade show my-0" role="alert">
+    {{ message }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  {% endfor %}
+  {% endif %}
+
+  {% block body %}{% endblock body %}
+
+
+  {% comment %} <script type="text/javascript" src="{% static 'js/bootstrap.bundle.min.js' %}"></script> {% endcomment %}
+  <script type="text/javascript" src="{% static 'js/jquery-3.2.1.slim.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/popper.min.js' %}"></script>
+  {% comment %} <script type="text/javascript" src="{% static 'js/form-ajax.js' %}"></script> {% endcomment %}
+</body>
+
+</html>

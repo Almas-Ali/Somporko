@@ -1,0 +1,11 @@
+.container {
+    max-width: 650px;
+    padding: 5px;
+}
+
+.user_img {
+    height: 70px;
+    width: 70px;
+    border-radius: 100%;
+    padding: 4px;
+}

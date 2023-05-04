@@ -1,0 +1,33 @@
+{% extends 'user_settings/layout.html' %}
+{% block menu %}active{% endblock menu %}
+{% block title %}Security Settings{% endblock title %}
+{% block body %}
+
+
+<div class="container">
+    <div class="card bg-light btn-light text-dark my-2 mx-2 py-2 px-3">
+        <center>
+            <h2>User Security</h2>
+        </center>
+        <div class="bg-light card btn-light text-dark my-2 mx-2 py-2 px-2">
+            <b> Join and login related informations: </b>
+
+            <div class="row container">
+                <b class="text-info"> Join date: </b> <span style="white-space:pre;">  {{userInfo.date_joined}} </span> <br>
+            </div>
+
+            <div class="row container">
+                <b class="text-info"> Last login: </b> <span style="white-space:pre;">  {{userInfo.last_login}} </span> <br>
+            </div>
+
+        </div>
+
+        <div class="card bg-light text-dark my-2 mx-2 py-2 px-2 btn-outline-light">
+            Change your account password here:
+            <a href="/settings/change-password">Change password</a>
+        </div>
+    </div>
+</div>
+
+
+{% endblock body %}

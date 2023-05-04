@@ -1,0 +1,115 @@
+{% extends 'news_feed/layout.html' %}
+{% block title %}Newsfeed{% endblock title %}
+{% block newsfeed %}active{% endblock newsfeed %}
+{% load humanize %}
+{% load extra_news_feed %}
+{% load static %}
+{% block links %}
+<link rel="stylesheet" href="{% static 'css/user_profile/profile.css' %}">
+{% endblock links %}
+{% block body %}
+
+<div class="alert alert-info alert-dismissible fade show" role="alert">
+  Welcome {{request.user.first_name}}, <br>
+  {{greating}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% comment %}
+<div class="alert alert-info alert-dismissible fade show" role="alert">
+  {{ announcement.admin }}, <br>
+  {{ announcement.text |safe }}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div> {% endcomment %}
+
+<div class="container-fluid">
+
+  {% for post in posts %}
+  <div class="card bg-light text-dark my-2 p-2" id="{{post.id}}">
+
+    <div class="row profile_user_image mx-1 my-1">
+      <img class="border-dark profile-picture" src="{{post.sno |profile_picture_finder}}" alt="Profile_Image"
+        height="55" width="55">
+
+
+      <div class="column mt-1 mx-2">
+
+        <a href="/{{post.sno}}" class="text-dark">
+          {{post.sno |get_full_name_user}}
+        </a>
+        <small class="text-muted px-1">@{{post.sno}}</small>
+        {% if post.is_profile_img %}
+        <span class="text-secondary update-notice">Updated profile picture</span>
+        {% endif %}
+        <br>
+        <small class="text-dark badge badge-light">
+          {{post.date |naturaltime}}
+        </small>
+
+      </div>
+    </div>
+
+    <div class="bg-light text-dark btn-light">
+      <p class="my-2 px-2 py-2">
+        {{post.post}}
+      </p>
+      {% if post.img == '' %}
+      {% else %}
+      <img src="{{post.id|picture_find}}" alt="Image" class="photo" height="{{post.id|get_image_height}}"
+        width="{{post.id|get_image_width}}">
+      {% endif %}
+
+    </div>
+    <hr>
+    <div class="post-btn mx-2 mt-2">
+      <form action="/profile/likepost" method="GET">
+        <input type="hidden" name="post_id" value="{{post.id}}">
+        <input type="hidden" name="path" value="{{request.path}}">
+        {% if request.user not in post.likes.all %}
+        <button id="like" class="btn btn-sm btn-primary mx-2" type="submit"><i class="far fa-thumbs-up"></i>
+          {{post.likes.all.count}}
+          {% else %}
+          <button id="like" class="btn btn-sm btn-primary mx-2" type="submit"><i class="fas fa-thumbs-up"></i>
+            {{post.likes.all.count}}
+            {% endif %}
+          </button>
+      </form>
+      <button class="btn btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#post{{post.id}}"
+        aria-expanded="false" aria-controls="post{{post.id}}"><i class="far fa-comment"></i>
+        {{post.id|get_count}}</button>
+      <div class="ml-2">
+        <form action="/posts/{{post.sno}}/id={{post.id}}">
+          <button type="submit" class="btn btn-sm btn-primary d-flex justify-content-right"><i
+              class="far fa-newspaper py-1"></i></button>
+        </form>
+      </div>
+      <a href="#" class="btn btn-sm btn-primary mx-2"><i class="fas fa-share-square"></i></a>
+    </div>
+    <div class="collapse" id="post{{post.id}}">
+      <div class="card bg-light text-dark my-2 px-2 py-2">
+        <form action="/user/comment" method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="path" value="{{request.path}}">
+          <input type="hidden" name="post" value="{{post.id}}">
+          <div class="form-group">
+            <label for="comment">Type your comment here:</label> <br>
+            <textarea class="col-md-12 comment-box" name="comment" id="comment" cols="30" rows="4" placeholder="Comment"
+              required></textarea> <br>
+            <button class="btn btn-sm btn-primary" type="submit">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+  {% endfor %}
+
+</div>
+
+
+
+{% endblock body %}

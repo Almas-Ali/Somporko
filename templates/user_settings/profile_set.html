@@ -1,0 +1,40 @@
+{% extends 'user_settings/layout.html' %}
+{% block menu %}active{% endblock menu %}
+{% block title %}Profile settings{% endblock title %}
+{% block body %}
+
+{% if messages %}
+{% for message in messages %}
+
+<div class="alert alert-{{ message.tags }} alert-dismissible fade show my-0" role="alert">
+    {{ message }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+{% endfor %}
+{% endif %}
+
+<div class="card bg-light my-2 mx-2">
+
+    <h2 align="center" class="text-dark"><b>Profile settings</b></h2>
+
+    <form action="/settings/imgsettings" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <input type="hidden" name="path" value="{{request.get_full_path}}">
+        <div class="container-fluid">
+            <label for="profileImg" class="text-dark mt-5">Update your profile image: </label>
+            <input type="file" name="profileImg" class="form-control-file">
+        </div>
+
+        <div align="center" class="form-group">
+            <button type="submit" class="btn btn-primary mt-2">Save</button>
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock body %}

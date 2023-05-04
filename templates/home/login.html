@@ -1,0 +1,54 @@
+{% extends 'home/layout.html' %}
+{% load static %}
+{% block title %}Login{% endblock title %}
+{% block login %}active{% endblock login %}
+{% block links %}
+<link rel="stylesheet" href="{% static 'css/home/login.css' %}">
+<link rel="stylesheet" href="{% static 'css/home/home_nav.css' %}">
+{% endblock links %}
+{% block scripts %}
+<script src="{% static 'js/home/login.js' %}"></script>
+{% endblock scripts %}
+{% block body %}
+
+
+<div class="container">
+
+  <!-- <div class="col-md-6 card bg-gray mx-5 my-5 px-3 py-3">
+    <div class="card-body">
+      <h1 align="center">
+        <span class="typewrite stop_docorate" data-period="2000"
+          data-type='[ "Hi, I am Md. Almas Ali.", "I am a Python Developer.", "I Love Programming.", "I Love to Code." ]'>
+          <span class="wrap"></span>
+        </span>
+      </h1>
+    </div>
+  </div> -->
+
+
+  <div class="card p-3">
+    <h3 class="text-center">Login</h3>
+    <form action="/login" method="POST">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp"
+          placeholder="Email" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="">
+          <input type="password" name="password" class="form-control" id="password" placeholder="Password" required>
+          <button type="button" class="btn btn-sm btn-primary" id="password_view"><i class="fas fa-eye-slash" id="hide"></i></button>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+      <a href="/forget-password" class="no-decorators mx-2">Forget Password</a>
+    </form>
+  </div>
+
+
+</div>
+
+
+{% endblock body %}

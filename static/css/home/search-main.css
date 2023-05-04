@@ -1,0 +1,17 @@
+.modal-dialog {
+  max-width: 500px;
+}
+
+.modal-content {
+  border-radius: 20px;
+}
+
+.modal form {
+  padding: 20px !important;
+}
+
+.modal .btns button {
+  border-radius: 15px;
+  width: 40%;
+  margin: 0 10px;
+}

@@ -1,0 +1,32 @@
+{% extends 'home/layout.html' %}
+{% load static %}
+{% block home %}active{% endblock home %}
+{% block title %}Home{% endblock title %}
+{% block links %}
+<link rel="stylesheet" href="{% static 'css//home/home_nav.css' %}">
+<link rel="stylesheet" href="{% static 'css/home/home.css' %}">
+{% endblock links %}
+{% block body %}
+
+<div class="container card my-2" align="center">
+    <div class="my-2 px-2">
+        <h1>{{config.website_name}}</h1>
+        <div class="site-logo"></div>
+        <h5 class="container my-3">
+            Welcome To {{config.website_name}} <br> A open social community for the human kind.
+        </h5>
+        <h5 class="container mt-3">
+            Join us to feel the freedom of virtual world. <br> <br>
+            It's free and always will be. <br> <br>
+            So, why are you waiting for. <br>
+        </h5>
+        <div class="home-buttons">
+            <a href="login" type="button" class="btn btn-primary w-50 mx-1">Login</a>
+            <a href="register" type="button" class="btn btn-primary w-50 mx-1">Register</a>
+        </div>
+
+    </div>
+</div>
+
+
+{% endblock body %}

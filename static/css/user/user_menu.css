@@ -1,0 +1,29 @@
+.container {
+  text-align: center;
+  color: black;
+}
+
+div a {
+  text-decoration: none;
+  color: #999 !important;
+}
+
+div a:hover {
+  text-decoration: none;
+  color: #111;
+}
+
+.card {
+  border-radius: 20px;
+}
+
+.card:not(:last-child, :first-child):hover {
+  /* border: #007bff 5px; */
+  box-shadow: 2px 4px 8px 4px #007bff !important;
+  transition: 0.1s;
+}
+
+.card:last-child:not(:first-child):hover {
+  box-shadow: 2px 4px 8px 4px #dc3545 !important;
+  transition: 0.1s;
+}

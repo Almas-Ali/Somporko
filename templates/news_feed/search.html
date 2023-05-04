@@ -1,0 +1,52 @@
+{% extends 'news_feed/layout.html' %}
+{% block title %}Search{% endblock title %}
+{% load static %}
+{% load extra_news_feed %}
+{% block links %}
+<link rel="stylesheet" href="{% static 'css/home/search.css' %}">
+{% endblock links %}
+{% block body %}
+
+<div class="container">
+    <h2 class="text-light my-2" align="center">
+        Search results:
+    </h2>
+
+    {% if userq == None %}
+    <div class="card text-dark bg-light p-2" align="center">
+        No results found.
+    </div>
+    {% else %}
+    {% for users in userq %}
+    <div class="card text-dark bg-light mb-2">
+        <div class="row no-gutters rounded overflow-hidden flex-md-row mb-1 shadow-sm h-md-250 p-2 m-2">
+            <div class="d-lg-block">
+                <a href="/profile/user/id={{users.id}}" class="text-dark">
+                    <img src="{{ MEDIA_URL }}{{users.username|profile_picture_finder}}"
+                        class="bd-placeholder-img mt-1 mr-2" alt="Profile Image">
+                </a>
+            </div>
+            {% for userInfos in userInfo %}
+            {% if users.id == userInfos.sno.id %}
+            <div class="col p-1 d-flex flex-column position-static">
+                <div class="row mx-1">
+                    <a href="/profile/user/id={{users.id}}" class="text-dark">
+                        <h4 class="mb-0"><b>{{users.get_full_name}}</b></h4>
+                    </a>
+                    <span class="mt-1 ml-2 text-muted">@{{users.username}}</span>
+                </div>
+                <div class="ml-1">
+                    <p class="card-text mb-auto"> {{userInfos.bio}} </p>
+                    <p class="card-text mb-auto"> {{userInfos.address}} </p>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+
+</div>
+
+{% endblock body %}

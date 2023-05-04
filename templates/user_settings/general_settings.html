@@ -1,0 +1,76 @@
+{% extends 'user_settings/layout.html' %}
+{% block menu %}active{% endblock menu %}
+{% block title %}Settings{% endblock title %}
+{% block body %}
+
+
+<div class="card bg-light my-2 mx-2">
+
+    <h2 align="center" class="text-dark"><b>User settings</b></h2>
+
+
+    <form action="/settings/settings_bio" method="POST">
+        {% csrf_token %}
+
+        <label for="bio" class="text-dark container mt-3">Update your bio: </label>
+
+        <div class="container-fluid">
+            <input type="text" name="bio" class="form-control" placeholder="Bio" value="{{settingsUser.bio}}" />
+        </div>
+
+        <label for="address" class="text-dark container mt-3">Address:</label>
+
+        <div class="container-fluid">
+            <input type="text" name="address" class="form-control" placeholder="Address"
+                value="{{settingsUser.address}}" />
+        </div>
+
+        <label for="Religion" class="text-dark container mt-3">Religion:</label>
+
+        <div class="container-fluid">
+            <input type="text" name="religion" class="form-control" placeholder="Religion"
+                value="{{settingsUser.religion}}" />
+        </div>
+
+        <label for="Date of birth" class="text-dark container mt-3">Date of birth:</label>
+
+        <div class="container-fluid">
+            <input type="date" name="birthday" class="form-control" placeholder="Date of birth"
+                value="{{birthday}}" />
+        </div>
+
+        <label for="Phone" class="text-dark container mt-3">Phone:</label>
+
+        <div class="container-fluid">
+            <input type="text" name="phone" class="form-control" placeholder="Phone" value="{{settingsUser.phone}}" />
+            <small class="form-text px-2 text-dark">With country code included.</small>
+        </div>
+
+
+        <label for="gender" class="text-dark container mt-3">Gender:</label>
+
+        <div class="container-fluid">
+
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="gender" id="Male" value="Male" {{value1}}>
+                <label class="form-check-label" for="Male">Male</label>
+            </div>
+
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="gender" id="Female" value="Female" {{value2}}>
+                <label class="form-check-label" for="Female">Female</label>
+            </div>
+
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="gender" id="Other" value="Other" {{value3}}>
+                <label class="form-check-label" for="Other">Other</label>
+            </div>
+
+            <div align="center" class="form-group">
+                <input type="submit" name="btnSubmit" class="btn btn-primary mt-4" value="Save" type="submit" />
+            </div>
+        </div>
+    </form>
+</div>
+
+{% endblock body %}

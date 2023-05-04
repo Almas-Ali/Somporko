@@ -1,0 +1,63 @@
+{% extends 'news_feed/layout.html' %}
+{% block title %}Friend Request{% endblock title %}
+{% block friends %}active{% endblock friends %}
+{% load humanize %}
+{% load static %}
+{% load extra_filter %}
+{% block links %}
+<link rel="stylesheet" href="{% static 'css/friends_manager/friend_request.css' %}">
+<link rel="stylesheet" href="{% static 'css/newsfeed/newsfeed.css' %}">
+{% endblock links %}
+{% block body %}
+
+<div class="container">
+  <div class="card bg-light text-dark">
+    <h2 align="center">Friend Requests</h2>
+
+    {% if all_r == empty %}
+    <div class="card bg-light text-dark p-2 m-2">
+      No friend request.
+    </div>
+    {% else %}
+    {% for friend in all_r %}
+    {% if friend.rejected == None %}
+    <div class="card bg-light text-dark p-2 m-2">
+      <div class="row my-2 mx-2">
+        <img class="user_img" src="{{friend.from_user.id |get_user_img_by_id}}" alt="Profile_Image">
+        <div class="column mx-2 my-2">
+          <a href="/profile/user/id={{friend.from_user.id}}"> {{friend.from_user.id |get_user_full_name}} </a>
+          <small class="text-muted px-1 mt-1">@{{friend.from_user.id |get_username_by_id}}</small>
+          <br>
+          <small class="text-dark badge">
+            {{friend.created |naturaltime}}
+          </small>
+        </div>
+      </div>
+
+      <div class="row d-flex justify-content-left px-3 post-btn">
+
+        <form action="/friends/accept-request/id={{friend.from_user.id}}" method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="path" id="path" value="{{request.path}}">
+          <button class="btn btn-primary my-2 mx-2">Accept</button>
+        </form>
+
+        <form action="/friends/decline-request/id={{friend.from_user.id}}" method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="path" id="path" value="{{request.path}}">
+          <button class="btn btn-danger my-2 mx-2">Decline</button>
+        </form>
+
+      </div>
+
+    </div>
+    {% else %}
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+
+
+  </div>
+</div>
+
+{% endblock body %}
