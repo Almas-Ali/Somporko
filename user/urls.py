@@ -1,6 +1,8 @@
 from django.urls import path
 from user import views
 
+app_name = 'user'
+
 urlpatterns = [
     path('menu', views.user_menu, name='user_menu'),
     path('notifications', views.notifications, name='notifications'),

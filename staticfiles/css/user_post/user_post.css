@@ -1,0 +1,17 @@
+.profile_user_image img {
+  height: 70px;
+  width: 70px;
+  padding: 5px;
+  margin: 0 5px;
+  border-radius: 100%;
+  pointer-events: none;
+}
+
+.photo {
+  width: 80%;
+  max-width: 700px;
+  height: auto;
+  border-radius: 12px;
+  display: block;
+  margin: 0 auto;
+}

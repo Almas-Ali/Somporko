@@ -1,0 +1,83 @@
+img {
+  height: 40px;
+  width: 40px;
+  border-radius: 100%;
+}
+
+.user_img {
+  height: 80px;
+  width: 80px;
+  margin: 10px 12px 8px 29px;
+}
+
+.details h4 {
+  margin-top: 17px;
+}
+
+.details span {
+  margin: 20px 0 0 5px;
+}
+
+.active {
+  color: green;
+  margin: 0 0 0 14px;
+}
+
+.from_user_img {
+  margin: 5px 6px 0 14px;
+}
+
+.to_user_img {
+  margin: 5px 12px 0 36px;
+}
+
+hr {
+  margin-bottom: 18px !important;
+}
+
+.name-field {
+  margin: 0;
+}
+
+.name-field span {
+  margin: 2px 5px;
+}
+
+.from_user_box {
+  display: flex;
+  justify-content: right;
+  margin: 5px 17px 10px 0;
+}
+
+a:hover {
+  text-decoration-line: none;
+}
+
+.to_user_msg {
+  padding: 10px;
+  color: #fff;
+}
+
+.to_user_msg span {
+  margin: -5px 0 0 0;
+  font-size: 13px;
+}
+
+.from_user_msg {
+  padding: 10px;
+  color: #fff;
+}
+
+.from_user_msg span {
+  margin: -5px 0 0 0;
+  font-size: 13px;
+}
+
+#msg_box {
+    margin-top: 10px;
+    border-radius: 15px;
+}
+
+.form-group {
+    margin: 0 10px 10px 10px;
+}

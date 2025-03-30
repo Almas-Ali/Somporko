@@ -13,21 +13,23 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 from pathlib import Path
 import os
 from django.contrib.messages import constants as messages
-from decouple import Config, Csv, RepositoryEnv
+# from decouple import Config, Csv, RepositoryEnv
+
+from dotenv import load_dotenv
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Load environment variables from .env file
+load_dotenv(os.path.join(BASE_DIR, '.env'))
 
-# ENV file object
-ENV = Config(RepositoryEnv('.env'))
-
-SECRET_KEY = ENV.get('SECRET_KEY')
-DEBUG = ENV.get('DEBUG', cast=bool)
-ALLOWED_HOSTS = ENV.get('ALLOWED_HOSTS', cast=Csv())
-SITE_ID = ENV.get('SITE_ID', cast=int)
-
+SECRET_KEY = os.getenv('SECRET_KEY')
+DEBUG = bool(os.getenv('DEBUG'))
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',')
+CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS').split(',')
+INTERNAL_IPS = os.getenv('INTERNAL_IPS').split(',')
+SITE_ID = int(os.getenv('SITE_ID'))
 
 # Application definition
 
@@ -39,21 +41,23 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'user_profiles.apps.UserProfilesConfig',
-    'home.apps.HomeConfig',
-    'user_messages.apps.UserMessagesConfig',
-    'user.apps.UserConfig',
-    'user_newsfeed.apps.UserNewsfeedConfig',
-    'user_settings.apps.UserSettingsConfig',
-    'friends_manager.apps.FriendsManagerConfig',
-    'user_post.apps.UserPostConfig',
-    'pages.apps.PagesConfig',
+    # local apps
+    'user_profiles',
+    'home',
+    'user_messages',
+    'user',
+    'user_newsfeed',
+    'user_settings',
+    'friends_manager',
+    'user_post',
+    'pages',
 
+    # third party apps
     'friendship',
     'django.contrib.humanize',
     'django.contrib.sites',
     'django.contrib.sitemaps',
-    'django_email_verification',
+    # 'django_email_verification',
 ]
 
 AUTH_USER_MODEL = 'user_profiles.User'
@@ -75,7 +79,9 @@ ROOT_URLCONF = 'social_network.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -139,11 +145,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'staticfiles')
+    os.path.join(BASE_DIR, 'static'),
 ]
 
 # Managing media files
@@ -151,10 +157,21 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 MESSAGE_TAGS = {
-    messages.ERROR: 'danger'
+    messages.ERROR: 'danger',
+    messages.SUCCESS: 'success',
+    messages.INFO: 'info',
+    messages.WARNING: 'warning',
+    messages.DEBUG: 'secondary',
 }
 
+# Email configuration
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_PORT = os.getenv('EMAIL_PORT')
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS')
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
@@ -163,4 +180,3 @@ if DEBUG:
     STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 else:
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-

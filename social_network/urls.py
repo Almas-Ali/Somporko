@@ -12,14 +12,14 @@ admin.site.index_title = 'Welcome to Somporko Admin Panel'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('home.urls')),
-    path('newsfeed/', include('user_newsfeed.urls')),
-    path('profile/', include('user_profiles.urls')),
-    path('settings/', include('user_settings.urls')),
-    path('friends/', include('friends_manager.urls')),
-    path('posts/', include('user_post.urls')),
-    path('user/', include('user.urls')),
-    path('messages/', include('user_messages.urls')),
+    path('', include('home.urls', namespace='home')),
+    path('newsfeed/', include('user_newsfeed.urls', namespace='newsfeed')),
+    path('profile/', include('user_profiles.urls', namespace='profile')),
+    path('settings/', include('user_settings.urls', namespace='settings')),
+    path('friends/', include('friends_manager.urls', namespace='friends')),
+    path('posts/', include('user_post.urls', namespace='posts')),
+    path('user/', include('user.urls', namespace='user')),
+    path('messages/', include('user_messages.urls', namespace='messages')),
     path('<str:username>/', views.userX, name='profile'),
     path('<str:username>/about', views.aboutX, name='about'),
     # # Password reset urls.
@@ -36,4 +36,4 @@ urlpatterns = [
 
 if settings.DEBUG:
      urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
+     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

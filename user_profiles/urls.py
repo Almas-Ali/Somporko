@@ -5,6 +5,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 import os
 
+app_name = 'profile'
 
 urlpatterns = [
     path('user/id=<int:id>', views.user_profiles, name='profile'),

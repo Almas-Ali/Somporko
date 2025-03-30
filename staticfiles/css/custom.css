@@ -1,0 +1,34 @@
+.img1 {
+	background: blue;
+	border-radius: 30px;
+}
+
+.stop_docorate {
+	text-decoration: none;
+}
+
+.profile {
+	border-radius: 20px;
+}
+
+.profile_user_image {
+	padding-left: 5px;
+}
+
+.friend-request-a {
+	text-decoration: none;
+}
+
+.friend-request-badge {
+	font-size: 10px;
+	text-decoration: none;
+}
+
+@media (max-width: 768px) {
+	.friend-request-a {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+	}
+}

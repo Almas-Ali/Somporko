@@ -1,0 +1,36 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-image: url("../../img/theme_bg.jpg") !important;
+}
+
+.card {
+  margin: auto;
+  max-width: 450px;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.651);
+  border-radius: 21px;
+}
+
+footer {
+  position: fixed !important;
+  bottom: 0 !important;
+}
+
+.btn {
+  border-radius: 1rem;
+}
+
+#password_view {
+  position: absolute;
+  right: 4%;
+  top: 57%;
+  background-color: rgb(26, 161, 202);
+  width: 60px;
+  height: 30px;
+}
+
+
+#password_view i {
+  color: black;
+}

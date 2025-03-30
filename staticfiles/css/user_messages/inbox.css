@@ -1,0 +1,22 @@
+img {
+  height: 120px;
+  width: 120px;
+  border-radius: 100%;
+  margin-right: 10px;
+}
+
+.details {
+    margin-left: 5px;
+}
+
+.box {
+    margin: 18px 30px;
+}
+
+.name-field {
+    margin-left: 0;
+}
+
+.name-field span {
+    margin: 4px 6px;
+}

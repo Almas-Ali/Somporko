@@ -1,6 +1,8 @@
 from django.urls import path, include
 from friends_manager import views
 
+app_name = 'friends'
+
 urlpatterns = [
 
     # Friend settings urls

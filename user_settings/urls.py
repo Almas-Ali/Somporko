@@ -4,6 +4,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 from user_settings import views
 
+app_name = 'settings'
+
 urlpatterns = [
     path('', views.settings, name='settings'),
     path('settings_bio', views.settings_bio, name='settings_bio'),
